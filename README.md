@@ -1,3 +1,10 @@
+# Note Buddy
+
+## About
+This is a note-taking app that allows you to interface with a local json file in order to track whatever notes you wish to keep. 
+
+---
+
 # Note Taker
 
 ## User Story
