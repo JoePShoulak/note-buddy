@@ -37,7 +37,7 @@ app.delete('/api/notes/:id', (req, res) => {
     let newData = oldData.filter(d => d.id != req.params.id)
 
     fs.writeFileSync("./db/db.json", JSON.stringify(newData));
-    return res.redirect('./public/notes.html')
+    return res.sendFile(path.join(__dirname, './public/notes.html'))
 });
 
 /* == HTML ROUTES == */
