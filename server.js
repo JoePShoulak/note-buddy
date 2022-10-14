@@ -21,12 +21,13 @@ app.post('/api/notes', (req, res) => {
     console.log("(API) POST Notes called.");
 
     let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
-    let maxID = oldData.map(d => parseInt(d.id)).pop();
+    let maxID = oldData.length != [] ? oldData.map(d => parseInt(d.id)).pop() : 1;
     
     let newNote = req.body;
     newNote["id"] = maxID + 1;
 
-    return fs.writeFileSync("./db/db.json", JSON.stringify([...oldData, newNote]));
+    fs.writeFileSync("./db/db.json", JSON.stringify([...oldData, newNote]));
+    return res.sendFile(path.join(__dirname, './public/notes.html'))
 });
 
 app.delete('/api/notes/:id', (req, res) => {
@@ -35,11 +36,11 @@ app.delete('/api/notes/:id', (req, res) => {
     let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
     let newData = oldData.filter(d => d.id != req.params.id)
 
-    return fs.writeFileSync("./db/db.json", JSON.stringify(newData));
+    fs.writeFileSync("./db/db.json", JSON.stringify(newData));
+    return res.sendFile(path.join(__dirname, './public/notes.html'))
 });
 
 /* == HTML ROUTES == */
-
 app.get('/notes', (req, res) => {
     console.log("(HTML) GET Notes called.");
 

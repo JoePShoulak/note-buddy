@@ -4,7 +4,8 @@
   "description": "AS A small business owner  \r I WANT to be able to write and save notes  \r SO THAT I can organize my thoughts and keep track of tasks I need to complete",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon server.js"
   },
   "repository": {
     "type": "git",
