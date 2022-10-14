@@ -21,7 +21,7 @@ app.post('/api/notes', (req, res) => {
     console.log("(API) POST Notes called.");
 
     let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
-    let maxID = oldData.length != [] ? oldData.map(d => parseInt(d.id)).pop() : 1;
+    let maxID = oldData.length != [] ? oldData.map(d => parseInt(d.id)).pop() : 0;
     
     let newNote = req.body;
     newNote["id"] = maxID + 1;
