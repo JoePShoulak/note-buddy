@@ -18,7 +18,7 @@ const makeNote = (body) => {
     
     let newNote = body;
     newNote["id"] = maxID + 1;
-
+        
     fs.writeFileSync("./db/db.json", JSON.stringify([...oldData, newNote]));
 }
 
