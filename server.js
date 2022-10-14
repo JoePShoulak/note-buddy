@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require("fs");
 
 const app = express();
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 80
 
 /* == MIDDLEWARE == */
 app.use(express.static('public'));
@@ -27,7 +27,7 @@ app.post('/api/notes', (req, res) => {
     newNote["id"] = maxID + 1;
 
     fs.writeFileSync("./db/db.json", JSON.stringify([...oldData, newNote]));
-    return res.sendFile(path.join(__dirname, './public/notes.html'))
+    return res.redirect('./public/notes.html')
 });
 
 app.delete('/api/notes/:id', (req, res) => {
@@ -37,7 +37,7 @@ app.delete('/api/notes/:id', (req, res) => {
     let newData = oldData.filter(d => d.id != req.params.id)
 
     fs.writeFileSync("./db/db.json", JSON.stringify(newData));
-    return res.sendFile(path.join(__dirname, './public/notes.html'))
+    return res.redirect('./public/notes.html')
 });
 
 /* == HTML ROUTES == */
