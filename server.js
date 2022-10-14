@@ -10,6 +10,25 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* == HELPER FUNCTION == */
+// This the helper funciton to make the note
+const makeNote = (body) => {
+    let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
+    let maxID = oldData.length != [] ? oldData.map(d => parseInt(d.id)).pop() : 0;
+    
+    let newNote = body;
+    newNote["id"] = maxID + 1;
+
+    fs.writeFileSync("./db/db.json", JSON.stringify([...oldData, newNote]));
+}
+
+const deleteNote = (fId) => {
+    let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
+    let newData = oldData.filter(d => d.id != fId)
+
+    fs.writeFileSync("./db/db.json", JSON.stringify(newData));
+}
+
 /* == API ROUTES == */
 app.get('/api/notes', (req, res) => {
     console.log("(API) GET Notes called.");
@@ -20,23 +39,16 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {
     console.log("(API) POST Notes called.");
 
-    let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
-    let maxID = oldData.length != [] ? oldData.map(d => parseInt(d.id)).pop() : 0;
-    
-    let newNote = req.body;
-    newNote["id"] = maxID + 1;
+    makeNote(req.body);
 
-    fs.writeFileSync("./db/db.json", JSON.stringify([...oldData, newNote]));
     return res.sendFile(path.join(__dirname, './public/notes.html'))
 });
 
 app.delete('/api/notes/:id', (req, res) => {
     console.log("(API) DELETE Notes called.");
 
-    let oldData = JSON.parse(fs.readFileSync("./db/db.json"));
-    let newData = oldData.filter(d => d.id != req.params.id)
+    deleteNote(req.params.id)
 
-    fs.writeFileSync("./db/db.json", JSON.stringify(newData));
     return res.sendFile(path.join(__dirname, './public/notes.html'))
 });
 

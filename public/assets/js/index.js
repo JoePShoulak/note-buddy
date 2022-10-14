@@ -57,8 +57,7 @@ const deleteNote = (id) =>
 // Render the current note
 const renderActiveNote = () => {
   hide(saveNoteBtn);
-  if (activeNote != null) {
-    if (activeNote.id) {
+    if (activeNote.id && activeNote != null) {
       noteTitle.setAttribute('readonly', true);
       noteText.setAttribute('readonly', true);
       noteTitle.value = activeNote.title;
@@ -69,7 +68,6 @@ const renderActiveNote = () => {
       noteTitle.value = '';
       noteText.value = '';
     }
-  }
 };
 
 // Wrapper function for note save
